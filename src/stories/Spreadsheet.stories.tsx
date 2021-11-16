@@ -6,7 +6,9 @@ import { AsyncCellDataEditor, AsyncCellDataViewer } from "./AsyncCellData";
 import CustomCell from "./CustomCell";
 import { RangeEdit, RangeView } from "./RangeDataComponents";
 import { SelectEdit, SelectView } from "./SelectDataComponents";
+import { LargeTextEdit, LargeTextEllipsisView, LargeTextMultiLineView } from "./LargeTextDataComponents";
 import { CustomCornerIndicator } from "./CustomCornerIndicator";
+import { range } from "../util";
 
 type StringCell = CellBase<string | undefined>;
 type NumberCell = CellBase<number | undefined>;
@@ -133,6 +135,24 @@ export const WithSelectCell: Story<Props<StringCell>> = (props) => {
     DataEditor: SelectEdit,
     className: "select-cell",
   };
+
+  return <Spreadsheet data={data} />;
+};
+
+export const WithLargeTextCell: Story<Props<StringCell>> = (props) => {
+  const data = createEmptyMatrix<StringCell>(INITIAL_ROWS, INITIAL_COLUMNS);
+  
+  range(INITIAL_ROWS).forEach(i => data[i][2] = {
+    value: undefined,
+    DataViewer: LargeTextMultiLineView,
+    DataEditor: LargeTextEdit,
+  });
+
+  range(INITIAL_ROWS).forEach(i => data[i][1] = {
+    value: undefined,
+    DataViewer: LargeTextEllipsisView,
+    DataEditor: LargeTextEdit,
+  });
 
   return <Spreadsheet data={data} />;
 };
